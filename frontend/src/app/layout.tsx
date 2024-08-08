@@ -6,15 +6,15 @@ import ogImage from "../app/opengraph-image.png";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.nexzsol.tech"),
+  metadataBase: new URL("https://www.nexzsol.tech/"),
   title: "nexzsol",
   description:
     "Contribute your expertise and earn Solana by solving real-world problems.",
   openGraph: {
-    title: "https://www.nexzsol.tech",
+    title: "https://www.nexzsol.tech/",
     description:
       "Turn your github contributions into solana rewards.",
-    url: "https://www.nexzsol.tech",
+    url: "https://www.nexzsol.tech/",
     siteName: "nexzsol.tech",
     images: [
       {
