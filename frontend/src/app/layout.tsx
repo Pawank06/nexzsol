@@ -1,11 +1,10 @@
 import '@/app/globals.css'
-import { Inter } from "next/font/google";
+import { Manrope } from "next/font/google";
 
 import { Metadata } from "next";
-import ogImage from "../app/opengraph-image.png";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const manrop = Manrope({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: 'nexzsol',
@@ -19,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" >
-      <body className={inter.className}>
+      <body className={manrop.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
