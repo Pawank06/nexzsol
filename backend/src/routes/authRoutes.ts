@@ -1,7 +1,12 @@
 import { Router } from "express";
-
+import User from "../models/userModel";
+import jwt from "jsonwebtoken";
+import { env } from "process";
 const authRoutes = Router();
 
+
+const client_id = process.env.CLIENT_ID
+const client_secret = process.env.CLIENT_SECRET
 authRoutes.get("/", async (req, res, next) => {
   const code = req.query.code;
   console.log(code);
@@ -12,8 +17,8 @@ authRoutes.get("/", async (req, res, next) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      client_id: "Ov23li6NL0UGR6ckpI25",
-      client_secret: "3bc18e85d16fa085a0fc0746d166d4ec8eaf362c",
+      client_id: client_id,
+      client_secret: client_secret,
       code: code,
     }),
   });
@@ -22,7 +27,30 @@ authRoutes.get("/", async (req, res, next) => {
   console.log(response);
   let accessToken = response.split("&")[0].split("=")[1];
   console.log(accessToken);
-  res.redirect(`http://localhost:3000?`);
+  const user = fetch("https://api.github.com/user", {
+    headers: {
+      Authorization: `token ${accessToken}`,
+    },
+  });
+  let userData = await user;
+  if (!userData.ok) {
+    res.redirect(`http://localhost:3000?error=${userData.statusText}`);
+  }
+  let userResponse = await userData.json();
+  let { login, avatar_url, id, email } = userResponse;
+  const userModel = await User.insertMany({
+    gitId: id,
+    name: login,
+    accessToken,
+    avatarUrl: avatar_url,
+  });
+
+  
+  const token = jwt.sign({ id: userModel[0]._id }, "secret", {
+    expiresIn: "1000d",
+  });
+  console.log(userResponse);
+  res.redirect(`http://localhost:3000?token=${token}`);
 });
 
-export default authRoutes; 
+export default authRoutes;
