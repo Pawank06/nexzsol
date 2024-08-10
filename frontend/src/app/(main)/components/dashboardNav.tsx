@@ -26,6 +26,7 @@ import { usePathname } from "next/navigation"
 import { SiSolana } from "react-icons/si";
 import { IoDiamond } from "react-icons/io5";
 import { MdLeaderboard } from "react-icons/md";
+import { FaGithub } from "react-icons/fa"
 
 interface DashboardNavProps{
     children: React.ReactNode
@@ -36,6 +37,11 @@ const navLinks = [
     label: "Get started",
     href: "/dashboard",
     icon: <Home className="h-4 w-4" />,
+  },
+  {
+    label: "Repos",
+    href: "/repos",
+    icon: <FaGithub className="h-4 w-4" />,
   },
   {
     label: "Activity",
