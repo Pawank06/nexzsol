@@ -1,39 +1,9 @@
+import { getRepo, sendRepo } from "../controllers/userController";
 import userHandler from "../middlewares/userHandler";
 import { Router } from "express";
 
 const userRoutes = Router();
-userRoutes.get("/repo", userHandler, async (req, res) => {
-  const access_token = req.headers.accessToken;
-  const headers = {
-    Authorization: `token ${access_token}`,
-  };
-  const data = await fetch("https://api.github.com/user/repos", {
-    headers,
-  });
-  const response = await data.json();
-  res.json(response);
-});
-userRoutes.post("/repo", userHandler, async (req, res) => {
-  const access_token = req.headers.accessToken;
-  const { hookUrl, repoName } = req.body;
-  const headers = {
-    Authorization: `token ${access_token}`,
-  };
-  const data = await fetch(`${hookUrl}`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({
-      name: "web",
-      active: true,
-      events: ["push"],
-      config: {
-        url: "https://nexzsol.com/api/github/webhook",
-        content_type: "json",
-      },
-    }),
-  });
-  const result = data.json();
-  res.json(result);
-});
+userRoutes.get("/repo", userHandler, getRepo);
+userRoutes.post("/repo", userHandler, sendRepo);
 
 export default userRoutes;
