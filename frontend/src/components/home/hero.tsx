@@ -60,17 +60,6 @@ const Hero = () => {
               </a>
             </span>
           </Button>
-          <Button
-            className="pl-2 py-6 text-sm md:text-base shadow-inner shadow-white/70"
-            variant="outline"
-          >
-            <span className="flex items-center gap-2">
-              <div className="px-3 py-2 rounded-md shadow-inner shadow-white/70 dark:shadow-black bg-black dark:bg-white dark:text-black text-white font-medium">
-                <FaGithub />
-                Access Repos
-              </div>
-            </span>
-          </Button>
         </div>
       </div>
     </section>
