@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import User from "../models/userModel";
 import jwt from "jsonwebtoken";
 
-const jwtSecret = process.env.JWT_SECRET || "defaultSecret";
+const jwtSecret = process.env.JWT_SECRET as string;
 
 const userHandler = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;

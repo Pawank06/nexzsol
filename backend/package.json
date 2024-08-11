@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.ts"
+    "dev": "nodemon server.ts",
+    "build": "tsc",
+    "docker:publish": "docker build -t heypawan1456/nexzsol:v1 --platform linux/amd64 . && docker push heypawan1456/nexzsol:v1"
+
   },
   "author": "",
   "license": "ISC",

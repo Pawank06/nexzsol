@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
+import { config } from "../config/config";
 
-const GITHUB_API_URL = "https://api.github.com/user/repos";
+const GITHUB_API_URL = config.githubAPIURL;
 
 
 const getRepo = async (req: Request, res: Response) => {
@@ -17,7 +18,7 @@ const getRepo = async (req: Request, res: Response) => {
 
       console.log(headers)
   
-      const response = await fetch(GITHUB_API_URL, {
+      const response = await fetch(GITHUB_API_URL as string, {
         headers,
       });
   

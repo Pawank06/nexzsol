@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel";
+import { config } from "../config/config";
 
-const client_id = process.env.CLIENT_ID!;
-const client_secret = process.env.CLIENT_SECRET!;
-const jwtSecret = process.env.JWT_SECRET || "defaultSecret";
+const client_id = config.clientID;
+const client_secret = config.clientSecret;
+
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -49,7 +50,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (!userResponse.ok) {
-      return res.redirect(`http://localhost:3000?error=${userResponse.statusText}`);
+      return res.redirect(`${config.frontEndUrl}?error=${userResponse.statusText}`);
     }
 
     const userData = await userResponse.json();
@@ -72,12 +73,12 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
       await userModel.save();
     }
 
-    const token = jwt.sign({ id: userModel._id }, jwtSecret, {
+    const token = jwt.sign({ id: userModel._id }, config.jwtSecret, {
       expiresIn: "1000d",
     });
 
     console.log(`User Data: ${JSON.stringify(userData)}`);
-    res.redirect(`http://localhost:3000?token=${token}`);
+    res.redirect(`${config.frontEndUrl}?token=${token}`);
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error", details: (error as Error).message });
