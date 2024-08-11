@@ -1,29 +1,28 @@
-// pages/index.tsx
 
 "use client";
 import React, { useEffect } from "react";
 import { FaGithub } from "react-icons/fa";
 import { Button } from "../ui/button";
 import { useSearchParams, useRouter } from "next/navigation";
-import { saveTokenToLocalStorage } from "@/utils/tokenUtils";
+import useTokenStore from "@/store"; // Ensure the path is correct
 
 const Hero = () => {
   const searchParams = useSearchParams();
-
-  const router = useRouter()
-
-  // Extract the token from query params
-  const token = searchParams.get("token");
-  console.log("Token", token);
+  const router = useRouter();
+  const setToken = useTokenStore((state) => state.setToken);
 
   useEffect(() => {
+    const token = searchParams.get("token");
     if (token) {
-      saveTokenToLocalStorage(token);
-      router.push("/dashboard"); // Redirect to the dashboard page
+      setToken(token);
+      // Remove token from URL and redirect to the dashboard
+      router.replace("/dashboard", undefined);
     }
-  }, [token, router]);
+  }, [searchParams, setToken, router]);
 
-  
+  const handleGitHubLogin = () => {
+    window.location.href = `https://github.com/login/oauth/select_account?client_id=Ov23li6NL0UGR6ckpI25&scope=repo`;
+  };
 
   return (
     <section className="flex items-center justify-center h-screen">
@@ -47,17 +46,13 @@ const Hero = () => {
           <Button
             className="pl-2 py-6 text-sm md:text-base shadow-inner shadow-white/70"
             variant="outline"
+            onClick={handleGitHubLogin}
           >
             <span className="flex items-center gap-2">
               <div className="px-3 py-2 rounded-md shadow-inner shadow-white/70 dark:shadow-black bg-black dark:bg-white dark:text-black text-white font-medium">
                 <FaGithub />
               </div>
-              <a
-                href="https://github.com/login/oauth/select_account?client_id=Ov23li6NL0UGR6ckpI25&scope=repo"
-                className="no-underline"
-              >
-                Get started with GitHub
-              </a>
+              Get started with GitHub
             </span>
           </Button>
         </div>
