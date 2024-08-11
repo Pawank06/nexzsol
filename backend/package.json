@@ -6,12 +6,12 @@
     "dev": "nodemon server.ts",
     "build": "tsc",
     "docker:publish": "docker build -t heypawan1456/nexzsol:v1 --platform linux/amd64 . && docker push heypawan1456/nexzsol:v1"
-
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.21",
     "@types/http-errors": "^2.0.4",
@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@types/cors": "^2.8.17",
+    "axios": "^1.7.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",

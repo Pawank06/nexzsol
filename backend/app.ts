@@ -4,6 +4,8 @@ import authRoutes from './routes/authRoutes'
 
 import userRoutes from "./routes/userRoutes";
 import cors from "cors";
+import axios from "axios";
+import { config } from "./config/config";
 const app = express();
 
 // routes
@@ -17,5 +19,28 @@ app.use("/user", userRoutes);
 
 // global error handler
 app.use(globalErrorHandler);
+
+const url = config.backendUrl as string;
+const interval = 30000;
+
+function reloadWebsite() {
+  axios
+    .get(url)
+    .then((response) => {
+      console.log(
+        `Reloaded at ${new Date().toISOString()}: Status Code ${
+          response.status
+        }`
+      );
+    })
+    .catch((error) => {
+      console.error(
+        `Error reloading at ${new Date().toISOString()}:`,
+        error.message
+      );
+    });
+}
+
+setInterval(reloadWebsite, interval);
 
 export default app;
