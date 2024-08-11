@@ -3,22 +3,30 @@
 import React, { useEffect } from "react";
 import { FaGithub } from "react-icons/fa";
 import { Button } from "../ui/button";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useTokenStore from "@/store"; // Ensure the path is correct
 
 const Hero = () => {
-  const searchParams = useSearchParams();
+
   const router = useRouter();
   const setToken = useTokenStore((state) => state.setToken);
 
   useEffect(() => {
-    const token = searchParams.get("token");
-    if (token) {
-      setToken(token);
-      // Remove token from URL and redirect to the dashboard
-      router.replace("/dashboard", undefined);
+    if (typeof window !== "undefined") {
+      // This check ensures the code is only run on the client side
+      const queryParams = new URLSearchParams(window.location.search);
+      const retrievedToken = queryParams.get("token")
+      if (retrievedToken) {
+        setToken(retrievedToken);
+        // Remove token from URL
+        window.history.replaceState({}, document.title, "/");
+
+        // Redirect to the dashboard page
+        setToken(retrievedToken);
+        router.push("/dashboard");
+      }
     }
-  }, [searchParams, setToken, router]);
+  }, [setToken, router]);
 
   const handleGitHubLogin = () => {
     window.location.href = `https://github.com/login/oauth/select_account?client_id=Ov23li6NL0UGR6ckpI25&scope=repo`;
