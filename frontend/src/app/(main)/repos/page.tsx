@@ -16,7 +16,7 @@ const Repo = () => {
                 throw new Error("No token found in store");
             }
 
-            const response = await fetch(`https://nexzsol.onrender.com/user/repo?username=${username}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/repo?username=${username}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

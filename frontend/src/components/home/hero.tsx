@@ -11,6 +11,8 @@ const Hero = () => {
   const router = useRouter();
   const setToken = useTokenStore((state) => state.setToken);
 
+  
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       // This check ensures the code is only run on the client side
@@ -29,7 +31,7 @@ const Hero = () => {
   }, [setToken, router]);
 
   const handleGitHubLogin = () => {
-    window.location.href = `https://github.com/login/oauth/select_account?client_id=Ov23li6NL0UGR6ckpI25&scope=repo`;
+    window.location.href = `${process.env.NEXT_PUBLIC_GITHUB_URL}`;
   };
 
   return (
