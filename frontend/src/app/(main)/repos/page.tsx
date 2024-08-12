@@ -43,7 +43,7 @@ const Repo = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          accessToken: token,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           hookUrl,
