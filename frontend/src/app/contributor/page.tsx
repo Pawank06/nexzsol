@@ -6,12 +6,12 @@ const Dashboard = () => {
         <div>
             <div className="flex flex-col items-center gap-1 text-center">
                 <h3 className="text-2xl font-bold tracking-tight">
-                    You have no products
+                    You didn&apos;t won any bounties yet.
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                    You can start selling as soon as you add a product.
+                    You can start win your first bounty now.
                 </p>
-                <Button className="mt-4">Add Product</Button>
+                <Button className="mt-4">Explore bounties</Button>
             </div>
         </div>
     )

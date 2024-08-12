@@ -5,11 +5,13 @@ import { FaGithub } from "react-icons/fa";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import useTokenStore from "@/store"; // Ensure the path is correct
+import Link from "next/link";
 
 const Hero = () => {
 
   const router = useRouter();
   const setToken = useTokenStore((state) => state.setToken);
+  const token = useTokenStore((state) => state.token);
 
   
 
@@ -25,7 +27,7 @@ const Hero = () => {
 
         // Redirect to the dashboard page
         setToken(retrievedToken);
-        router.push("/dashboard");
+        router.push("/select-role");
       }
     }
   }, [setToken, router]);
@@ -53,9 +55,19 @@ const Hero = () => {
           </p>
         </div>
         <div className="flex items-center justify-center mt-5">
-          <Button
-            className="pl-2 py-6 text-sm md:text-base shadow-inner shadow-white/70"
+          {
+            token ? <Link href="/select-role">
+              <Button
+            onClick={handleGitHubLogin}
+          >
+            <span>
+            Select your role
+            </span>
+          </Button>
+              
+            </Link> : <Button
             variant="outline"
+            className="pl-2 py-6 text-sm md:text-base shadow-inner shadow-white/70 dark:bg-black"
             onClick={handleGitHubLogin}
           >
             <span className="flex items-center gap-2">
@@ -65,6 +77,7 @@ const Hero = () => {
               Get started with GitHub
             </span>
           </Button>
+          }  
         </div>
       </div>
     </section>
