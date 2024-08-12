@@ -45,13 +45,7 @@ const Repo = () => {
                 repoName: username,
             }),
         })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Success:", data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+            
     }
     return (
         <div>
