@@ -3,7 +3,7 @@ import {config as conf} from 'dotenv'
 conf()
 
 const _config = {
-    port: process.env.PORT || 4000,
+    port: process.env.PORT,
     databaseUrl: process.env.DATABASE_URL,
     env: process.env.NODE_ENV,
     jwtSecret: process.env.JWT_SECRET as string,
