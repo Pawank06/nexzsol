@@ -45,9 +45,9 @@ const sendRepo = async (req: Request, res: Response) => {
       body: JSON.stringify({
         name: "web",
         active: true,
-        events: ["push"],
+        events: ["commit_comment"],
         config: {
-          url: "https://nexzsol.com/api/github/webhook",
+          url: "https://nexzsol.onrender.com/api/webhook",
           content_type: "json",
         },
       }),

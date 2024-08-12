@@ -33,6 +33,26 @@ const Repo = () => {
             setError("Error fetching repos: " + (error as Error).message);
         }
     };
+    const handleClick = (hookUrl:string) => {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/webhook`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                accessToken: token,
+            },
+            body: JSON.stringify({
+                hookUrl,
+                repoName: username,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Success:", data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
     return (
         <div>
             <div className="flex flex-col items-center gap-1 text-center">
@@ -55,6 +75,7 @@ const Repo = () => {
                         <div
                             key={item.name}
                             className="flex items-center justify-between hover:bg-slate-400 p-2 cursor-pointer"
+                            onClick={() => handleClick(item.hooks_url)}
                         >
                             {item.name}
                         </div>

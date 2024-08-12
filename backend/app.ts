@@ -1,6 +1,7 @@
 import express from "express";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
 import authRoutes from './routes/authRoutes'
+import hookRoutes from "./routes/hookRoutes";
 
 import userRoutes from "./routes/userRoutes";
 import cors from "cors";
@@ -16,6 +17,7 @@ app.get("/", (req, res, next) => {
 });
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/api", hookRoutes);
 
 // global error handler
 app.use(globalErrorHandler);
