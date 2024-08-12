@@ -52,8 +52,8 @@ const sendRepo = async (req: Request, res: Response) => {
         },
       }),
     });
-    const result = data.json();
-    res.json(result);
+    const result = await data.json();
+    res.status(200).json(result);
 }
 
 export {getRepo, sendRepo}
