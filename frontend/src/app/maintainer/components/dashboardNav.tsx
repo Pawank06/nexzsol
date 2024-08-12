@@ -6,9 +6,7 @@ import {
   CircleUser,
   Home,
   Menu,
-  Package2,
   Search,
-  Users,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -23,10 +21,10 @@ import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import React from "react"
 import { usePathname } from "next/navigation"
-import { SiSolana } from "react-icons/si";
 import { IoDiamond } from "react-icons/io5";
 import { MdLeaderboard } from "react-icons/md";
 import { FaGithub } from "react-icons/fa"
+import Logo from "@/components/icons/Logo"
 
 interface DashboardNavProps{
     children: React.ReactNode
@@ -35,37 +33,27 @@ interface DashboardNavProps{
 const navLinks = [
   {
     label: "Get started",
-    href: "/dashboard",
+    href: "/maintainer",
     icon: <Home className="h-4 w-4" />,
   },
   {
     label: "Repos",
-    href: "/repos",
+    href: "/maintainer/repos",
     icon: <FaGithub className="h-4 w-4" />,
   },
   {
-    label: "Activity",
-    href: "/activity",
-    icon: <Users className="h-4 w-4" />,
-  },
-  {
-    label: "Community bounties",
-    href: "/bounties",
+    label: "Spent Sol",
+    href: "/maintainer/spent",
     icon: <IoDiamond className="h-4 w-4" />,
   },
   {
-    label: "Leader board",
-    href: "/leaderboard",
+    label: "Conrributors",
+    href: "/maintainer/contributors",
     icon: <MdLeaderboard className="h-4 w-4" />,
-  },
-  {
-    label: "Earnings",
-    href: "/earnings",
-    icon: <SiSolana className="h-4 w-4" />
   }
 ]
 
-export function DashboardNav({children}: DashboardNavProps) {
+export function MaintainerDashboardNav({children}: DashboardNavProps) {
   const pathname = usePathname()
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -73,8 +61,8 @@ export function DashboardNav({children}: DashboardNavProps) {
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
-              <Package2 className="h-6 w-6" />
-              <span className="">Acme Inc</span>
+              <Logo className="h-6 w-6 border rounded-md" />
+              <span className="">nexzsol</span>
             </Link>
             <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
