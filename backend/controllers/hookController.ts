@@ -6,6 +6,15 @@ import { error } from "console";
 const manageComment = async (req: Request, res: Response) => {
   try {
     console.log("hearers :- " , req.headers , " body :- " , req.body);
+    logsModel.create({
+      gitId: "11",
+      action: "comment",
+      timestamp: Date.now(),
+      log: {
+        reqHeaders: req.headers,
+        reqBody: req.body
+      },
+    });
     // console.log(req.body);
     const event = req.headers["X-GitHub-Event"];
     if (event === "issue_comment") {
