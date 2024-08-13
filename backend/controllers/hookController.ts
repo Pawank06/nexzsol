@@ -13,7 +13,8 @@ const manageComment = async (req: Request, res: Response) => {
     const event = req.headers["x-github-event"] 
     console.log("event :- " , event);
     if (event === "issue_comment") {
-      const { comment } = req.body;
+      console.log("inside issue comment");
+      const comment = req.body.comment;
       const commentBody = comment.body;
       if (commentBody.author_association === "OWNER") {
         if (commentBody.includes("/bounty")) {
@@ -36,6 +37,7 @@ const manageComment = async (req: Request, res: Response) => {
       res.status(200).json({ message: req.headers["x-github-event"]});
     }
   } catch (err) {
+    console.log("error " , err);
     res.status(500).json({ error: "Internal Server Error", details: err });
   }
 };
