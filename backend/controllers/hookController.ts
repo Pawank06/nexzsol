@@ -5,12 +5,12 @@ import { error } from "console";
 
 const manageComment = async (req: Request, res: Response) => {
   try {
-    console.log("hearers :- " , req.headers , " body :- " , req.body);
+    console.log("hearers :- " , req.headers , " body :- " , req.body , " event " , req.headers["x-github-event"]);
 
     
     // console.log(req.body);
     
-    const event = req.headers["message"] as any ["x-github-event"]
+    const event = req.headers["x-github-event"] 
     console.log("event :- " , event);
     if (event === "issue_comment") {
       const { comment } = req.body;
@@ -33,7 +33,7 @@ const manageComment = async (req: Request, res: Response) => {
         res.status(200).json({ message: "Comment logged successfully" });
       }
     } else {
-      res.status(200).json({ message: req.headers["message"] as any ["x-github-event"]});
+      res.status(200).json({ message: req.headers["x-github-event"]});
     }
   } catch (err) {
     res.status(500).json({ error: "Internal Server Error", details: err });
