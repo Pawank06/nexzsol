@@ -5,7 +5,7 @@ import { error } from "console";
 
 const manageComment = async (req: Request, res: Response) => {
   try {
-    console.log("hearers :- " , req.headers , " body :- " , req.body , " event " , req.headers["x-github-event"]);
+    // console.log("hearers :- " , req.headers , " body :- " , req.body , " event " , req.headers["x-github-event"]);
 
     
     // console.log(req.body);
@@ -15,11 +15,16 @@ const manageComment = async (req: Request, res: Response) => {
     if (event === "issue_comment") {
       console.log("inside issue comment");
       const comment = req.body.comment;
+      console.log("comment :- " , comment);
       const commentBody = comment.body;
+      console.log("commentBody :- " , commentBody);
+
       if (commentBody.author_association === "OWNER") {
+        console.log("inside owner");
         if (commentBody.includes("/bounty")) {
           const contributor = commentBody.split("@")[1].split(" ")[0];
           const amount = commentBody.split("sol-")[1];
+          console.log("contributor :- " , contributor , " amount :- " , amount);
           const LogModel = await logsModel.create({
             gitId: comment.id,
             action: "comment",
@@ -29,6 +34,7 @@ const manageComment = async (req: Request, res: Response) => {
               amount,
             },
           });
+          console.log("LogModel :- " , LogModel);
           LogModel.save();
         }
         res.status(200).json({ message: "Comment logged successfully" });
