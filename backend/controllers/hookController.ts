@@ -19,7 +19,7 @@ const manageComment = async (req: Request, res: Response) => {
       const commentBody = comment.body;
       console.log("commentBody :- " , commentBody);
 
-      if (commentBody.author_association === "OWNER") {
+      if (comment.author_association === "OWNER") {
         console.log("inside owner");
         if (commentBody.includes("/bounty")) {
           const contributor = commentBody.split("@")[1].split(" ")[0];
