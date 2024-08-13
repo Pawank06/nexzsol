@@ -6,17 +6,12 @@ import { error } from "console";
 const manageComment = async (req: Request, res: Response) => {
   try {
     console.log("hearers :- " , req.headers , " body :- " , req.body);
-    logsModel.create({
-      gitId: "11",
-      action: "comment",
-      timestamp: Date.now(),
-      log: {
-        reqHeaders: req.headers,
-        reqBody: req.body
-      },
-    });
+
+    
     // console.log(req.body);
-    const event = req.headers["X-GitHub-Event"];
+    
+    const event = req.headers["message"] as any ["x-github-event"]
+    console.log("event :- " , event);
     if (event === "issue_comment") {
       const { comment } = req.body;
       const commentBody = comment.body;
@@ -24,7 +19,7 @@ const manageComment = async (req: Request, res: Response) => {
         if (commentBody.includes("/bounty")) {
           const contributor = commentBody.split("@")[1].split(" ")[0];
           const amount = commentBody.split("sol-")[1];
-          logsModel.create({
+          const LogModel = await logsModel.create({
             gitId: comment.id,
             action: "comment",
             timestamp: Date.now(),
@@ -33,6 +28,7 @@ const manageComment = async (req: Request, res: Response) => {
               amount,
             },
           });
+          LogModel.save();
         }
         res.status(200).json({ message: "Comment logged successfully" });
       }
