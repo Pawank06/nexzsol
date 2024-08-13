@@ -5,7 +5,7 @@ import { error } from "console";
 
 const manageComment = async (req: Request, res: Response) => {
   try {
-    const event = req.headers["x-github-event"];
+    const event = req.headers["X-GitHub-Event"];
     if (event === "issue_comment") {
       const { comment } = req.body;
       const commentBody = comment.body;
