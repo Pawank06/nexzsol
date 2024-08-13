@@ -37,9 +37,8 @@ const Repo = () => {
     }
   };
   const handleClick = async (hookUrl: string) => {
-    console.log("Hook url", hookUrl);
     const res = await fetch(
-      `https://nexzsol.onrender.com/user/repo`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/repo`,
       {
         method: "POST",
         headers: {

@@ -1,89 +1,91 @@
-'use client'
-import { Button } from '@/components/ui/button'
-import useTokenStore from '@/store';
+"use client";
+import { Button } from "@/components/ui/button";
+import useTokenStore from "@/store";
 
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 const Repo = () => {
-    const [repo, setRepo] = useState<any[]>([]);
-    const [username, setUsername] = useState<string>('');
-    const [error, setError] = useState<string | null>(null);
-    const token = useTokenStore((state) => state.token)
+  const [repo, setRepo] = useState<any[]>([]);
+  const [username, setUsername] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const token = useTokenStore((state) => state.token);
 
-    const fetchRepos = async () => {
-        try {
-            if (!token) {
-                throw new Error("No token found in store");
-            }
+  const fetchRepos = async () => {
+    try {
+      if (!token) {
+        throw new Error("No token found in store");
+      }
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/repo?username=${username}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            setRepo(data);
-            console.log("Fetched repositories:", data);
-        } catch (error) {
-            setError("Error fetching repos: " + (error as Error).message);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/repo?username=${username}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-    };
-    const handleClick = (hookUrl:string) => {
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/webhook`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                accessToken: token,
-            },
-            body: JSON.stringify({
-                hookUrl,
-                repoName: username,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Success:", data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    }
-    return (
-        <div>
-            <div className="flex flex-col items-center gap-1 text-center">
-                <h3 className="text-2xl font-bold tracking-tight">
-                    Add you repo for create bounty
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                    You can start selling as soon as you add a product.
-                </p>
-                <Button onClick={fetchRepos} className="mt-4">Fetch all repos</Button>
-            </div>
-            {error && (
-                <div className="mt-5 text-red-500">
-                    {error}
-                </div>
-            )}
-            {repo.length > 0 && (
-                <div id="repo" className="mt-5">
-                    {repo.map((item) => (
-                        <div
-                            key={item.name}
-                            className="flex items-center justify-between hover:bg-slate-400 p-2 cursor-pointer"
-                            onClick={() => handleClick(item.hooks_url)}
-                        >
-                            {item.name}
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
-    )
-}
+      );
 
-export default Repo
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setRepo(data);
+      console.log("Fetched repositories:", data);
+    } catch (error) {
+      setError("Error fetching repos: " + (error as Error).message);
+    }
+  };
+  const handleClick = async (hookUrl: string) => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/repo`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          hookUrl,
+          repoName: username,
+        }),
+      }
+    );
+    if (res.status === 200) {
+      console.log("Hook added successfully");
+    } else {
+      console.log("Error adding");
+    }
+  };
+  return (
+    <div>
+      <div className="flex flex-col items-center gap-1 text-center">
+        <h3 className="text-2xl font-bold tracking-tight">
+          Add you repo for create bounty
+        </h3>
+        <p className="text-sm text-muted-foreground">
+          You can start selling as soon as you add a product.
+        </p>
+        <Button onClick={fetchRepos} className="mt-4">
+          Fetch all repos
+        </Button>
+      </div>
+      {error && <div className="mt-5 text-red-500">{error}</div>}
+      {repo.length > 0 && (
+        <div id="repo" className="mt-5">
+          {repo.map((item) => (
+            <div
+              key={item.name}
+              className="flex items-center justify-between hover:bg-slate-400 p-2 cursor-pointer"
+              onClick={() => handleClick(item.hooks_url)}
+            >
+              {item.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Repo;
