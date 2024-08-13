@@ -25,7 +25,7 @@ const getRepo = async (req: Request, res: Response) => {
       if (!response.ok) {
         return res.status(response.status).json({ error: "Failed to fetch repositories" });
       }
-  
+      
       const data = await response.json();
       res.json(data);
     } catch (err) {

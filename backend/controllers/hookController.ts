@@ -6,19 +6,27 @@ import { error } from "console";
 const manageComment = async (req: Request, res: Response) => {
   try {
     const event = req.headers["x-github-event"];
-    if (event === "commit_comment") {
-      const { comment, repository } = req.body;
-      logsModel.create({
-        gitId: comment.id,
-        action: "comment",
-        timestamp: Date.now(),
-        log: {
-          comment,
-          repository,
+    if (event === "issue_comment") {
+      const { comment } = req.body;
+      const commentBody = comment.body;
+      if (commentBody.author_association === "OWNER") {
+        if (commentBody.includes("/bounty")) {
+          const contributor = commentBody.split("@")[1].split(" ")[0];
+          const amount = commentBody.split("sol-")[1];
+          logsModel.create({
+            gitId: comment.id,
+            action: "comment",
+            timestamp: Date.now(),
+            log: {
+              contributor,
+              amount,
+            },
+          });
         }
-      });
-
         res.status(200).json({ message: "Comment logged successfully" });
+      }
+    } else {
+      res.status(200).json({ message: "Not a comment event" });
     }
   } catch (err) {
     res.status(500).json({ error: "Internal Server Error", details: err });
