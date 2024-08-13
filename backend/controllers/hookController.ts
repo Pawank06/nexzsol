@@ -35,7 +35,7 @@ const manageComment = async (req: Request, res: Response) => {
             },
           });
           console.log("LogModel :- " , LogModel);
-          LogModel.save();
+          await LogModel.save();
         }
         res.status(200).json({ message: "Comment logged successfully" });
       }
