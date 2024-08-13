@@ -26,7 +26,7 @@ const manageComment = async (req: Request, res: Response) => {
         res.status(200).json({ message: "Comment logged successfully" });
       }
     } else {
-      res.status(200).json({ message: "Not a comment event" });
+      res.status(200).json({ message: req.headers["X-GitHub-Event"]});
     }
   } catch (err) {
     res.status(500).json({ error: "Internal Server Error", details: err });
