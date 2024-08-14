@@ -7,17 +7,36 @@ export interface TokenStore {
   removeToken: () => void;
 }
 
+export interface RoleStore {
+  role: string;
+  setRole: (role: string) => void;
+  removeRole: () => void;
+}
+
 const useTokenStore = create<TokenStore>()(
   devtools(
     persist(
       (set) => ({
         token: "",
-        setToken: (data: string) => set(() => ({ token: data })),
-        removeToken: () => set(() => ({ token: "" })),
+        setToken: (data: string) => set({ token: data }),
+        removeToken: () => set({ token: "" }),
       }),
       { name: "token-store" }
     )
   )
 );
 
-export default useTokenStore;
+const useRoleStore = create<RoleStore>()(
+  devtools(
+    persist(
+      (set) => ({
+        role: "",
+        setRole: (role: string) => set({ role }),
+        removeRole: () => set({ role: "" }),
+      }),
+      { name: "role-store" }
+    )
+  )
+);
+
+export { useTokenStore, useRoleStore };
