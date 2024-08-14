@@ -4,13 +4,23 @@ import { Button } from "@/components/ui/button";
 import { useTokenStore } from "@/store";
 import { Loader } from "lucide-react";
 
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 const Repo = () => {
   const [repo, setRepo] = useState<any[]>([]);
   const [username, setUsername] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const reposPerPage = 8; // Number of repos to display per page
+  const reposPerPage = 6; // Number of repos to display per page
   const token = useTokenStore((state) => state.token);
   const [selectedRepo, setSelectedRepo] = useState(false)
 
@@ -84,7 +94,7 @@ const Repo = () => {
 
   return (
     <div>
-      <div className="flex flex-col items-center gap-1 text-center">
+      <div className="">
         {loading ? (
           <Loader className="animate-spin" />
         ) : !repo.length ? (
@@ -99,32 +109,47 @@ const Repo = () => {
               Fetch all repos
             </Button>
           </>
-        ) : <h3 className="text-2xl font-bold tracking-tight mb-4">Select a repo to send bounties. </h3>}
+        ) : <h3 className="text-4xl my-6 text-center font-bold tracking-tight">Select a repo to send bounties. </h3>}
       </div>
       {error && <div className="mt-5 text-red-500">{error}</div>}
       {repo.length > 0 && (
-        <div id="repo" className="lg:w-[700px] w-[500px] md:w-[600px] px-5 py-5">
-          {paginatedRepos.map((item) => (
-            <div
-              key={item.name}
-              className="flex items-center justify-between hover:border rounded-md p-4 cursor-pointer"
-              onClick={() => handleClick(item.hooks_url)}
-            >
-              {item.name}
-            </div>
-          ))}
-          <div className="flex justify-between mt-4">
-            <Button className="ml-4" variant="outline" onClick={handlePreviousPage} disabled={currentPage === 0}>
+        <>
+          <div id="repo" className="px-5 py-5 grid lg:grid-cols-3 md:grid-cols-2 gap-4 md:border rounded-lg">
+            {paginatedRepos.map((item) => (
+              <Card
+                key={item.name}
+                className="w-full lg:w-[200px]">
+                <CardHeader>
+                  <CardTitle>{item.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex gap-2">
+                    <p className="mb-4 text-sm text-muted-foreground">Stars:  {item.stargazers_count}</p>
+                    <p className="mb-4 text-sm text-muted-foreground">
+                     Forks: {item.forks}
+                    </p>
+                  </div>
+
+                  <Button onClick={() => handleClick(item.hooks_url)}>add to bounty</Button>
+
+                </CardContent>
+              </Card>
+            ))}
+
+          </div>
+          <div className="flex w-[300px] mx-auto md:w-full justify-between my-4">
+            <Button variant="outline" onClick={handlePreviousPage} disabled={currentPage === 0}>
               Previous
             </Button>
             <Button
               onClick={handleNextPage}
               disabled={(currentPage + 1) * reposPerPage >= repo.length}
             >
-              Next
+              Next Page
             </Button>
           </div>
-        </div>
+        </>
+
       )}
     </div>
   );
