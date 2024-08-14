@@ -10,7 +10,7 @@ const Repo = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const reposPerPage = 13; // Number of repos to display per page
+  const reposPerPage = 8; // Number of repos to display per page
   const token = useTokenStore((state) => state.token);
   const [selectedRepo, setSelectedRepo] = useState(false)
 
