@@ -13,7 +13,7 @@ export interface RoleStore {
   removeRole: () => void;
 }
 
-const useTokenStore = create<TokenStore>()(
+export const useTokenStore = create<TokenStore>()(
   devtools(
     persist(
       (set) => ({
@@ -26,7 +26,7 @@ const useTokenStore = create<TokenStore>()(
   )
 );
 
-const useRoleStore = create<RoleStore>()(
+export const useRoleStore = create<RoleStore>()(
   devtools(
     persist(
       (set) => ({
@@ -38,5 +38,3 @@ const useRoleStore = create<RoleStore>()(
     )
   )
 );
-
-export { useTokenStore, useRoleStore };

@@ -12,6 +12,7 @@ const Repo = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const reposPerPage = 13; // Number of repos to display per page
   const token = useTokenStore((state) => state.token);
+  const [selectedRepo, setSelectedRepo] = useState(false)
 
   const fetchRepos = async () => {
     try {
@@ -60,6 +61,7 @@ const Repo = () => {
     );
     if (res.status === 200) {
       console.log("Hook added successfully");
+      setSelectedRepo(true)
     } else {
       console.log("Error adding");
     }
@@ -97,7 +99,7 @@ const Repo = () => {
               Fetch all repos
             </Button>
           </>
-        ) : <h3 className="text-2xl font-bold tracking-tight mb-4">Select a Repo to send bounties. </h3>}
+        ) : <h3 className="text-2xl font-bold tracking-tight mb-4">Select a repo to send bounties. </h3>}
       </div>
       {error && <div className="mt-5 text-red-500">{error}</div>}
       {repo.length > 0 && (
