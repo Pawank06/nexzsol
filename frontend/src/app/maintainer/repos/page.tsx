@@ -118,13 +118,13 @@ const Repo = () => {
             {paginatedRepos.map((item) => (
               <Card
                 key={item.name}
-                className="w-full lg:w-[200px]">
+                className="w-full">
                 <CardHeader>
                   <CardTitle>{item.name}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex gap-2">
-                    <p className="mb-4 text-sm text-muted-foreground">Stars:  {item.stargazers_count}</p>
+                    <p className="mb-4 text-sm text-muted-foreground">Stars: {item.stargazers_count}</p>
                     <p className="mb-4 text-sm text-muted-foreground">
                      Forks: {item.forks}
                     </p>
