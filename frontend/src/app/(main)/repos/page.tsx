@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import useTokenStore from "@/store";
+import {useTokenStore} from "@/store";
 
 import React, { useState } from "react";
 
