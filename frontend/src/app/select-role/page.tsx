@@ -1,22 +1,30 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import useTokenStore from "@/store";
+import { useTokenStore, useRoleStore } from "@/store";
 
 type Role = 'contributor' | 'maintainer';
 
 const SelectRole = () => {
   const router = useRouter();
-  const token = useTokenStore((state) => state.token)
+  const token = useTokenStore((state) => state.token);
+  const { role, setRole } = useRoleStore((state) => ({
+    role: state.role,
+    setRole: state.setRole,
+  }));
 
-  if(!token){
-    return router.push('/')
-  }
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    } else if (role) {
+      router.push(`/${role}`);
+    }
+  }, [token, role, router]);
 
-
-  const handleRoleSelection = (role: Role) => {
-    router.push(`/${role}`); // Redirect to role-specific dashboard
+  const handleRoleSelection = (selectedRole: Role) => {
+    setRole(selectedRole);  // Store the role in Zustand state
+    router.push(`/${selectedRole}`); // Redirect to role-specific dashboard
   };
 
   return (
