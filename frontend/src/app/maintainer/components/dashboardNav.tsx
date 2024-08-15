@@ -43,11 +43,11 @@ const navLinks = [
   },
   {
     label: "Spent Sol",
-    href: "/maintainer/spent",
+    href: "/maintainer/spent-sol",
     icon: <IoDiamond className="h-4 w-4" />,
   },
   {
-    label: "Conrributors",
+    label: "Contributors",
     href: "/maintainer/contributors",
     icon: <MdLeaderboard className="h-4 w-4" />,
   }
