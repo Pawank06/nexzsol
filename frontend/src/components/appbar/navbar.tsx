@@ -8,21 +8,58 @@ import {FaWallet} from 'react-icons/fa'
 import { ModeToggle } from '../ModeToggle'
 import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { useWallet } from '@solana/wallet-adapter-react'
+import { useGitIdStore, useTokenStore } from '@/store'
 
 const Navbar = () => {
     const {publicKey, signMessage} = useWallet()
+    const gitId = useGitIdStore((state) => state.gitId)
+    const token = useTokenStore((state) => state.token)
 
-    async function signAndSend(){
+    async function signAndSend() {
+        if (!publicKey) return
 
-        if(!publicKey) return
-        
-        const message = new TextEncoder().encode("sign into nexzsol")
-        const signature = await signMessage?.(message)
+        try {
+            const message = new TextEncoder().encode("Sign into nexzsol")
+            const signature = await signMessage?.(message)
+
+            if (!signature) {
+                console.error("Signature failed")
+                return
+            }
+
+            // Send the public key and signature to the backend for verification
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/verify-signature`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    publicKey: publicKey.toString(),
+                    signature,
+                    gitId,
+                }),
+            })
+
+            const data = await response.json()
+
+            if (response.ok) {
+                console.log("Signature verified and address saved:", data)
+                // You can navigate or show a success message here
+            } else {
+                console.error("Verification failed:", data.message)
+            }
+        } catch (error) {
+            console.error("Error during signing or sending data:", error)
+        }
     }
 
     useEffect(() => {
-        signAndSend()
+        if (publicKey) {
+            signAndSend()
+        }
     }, [publicKey])
+    
     return (
         <header className="py-4 border-b md:border-none fixed top-0 left-0 right-0 z-10">
             <div className="container mx-auto px-4 ">

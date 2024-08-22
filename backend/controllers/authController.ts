@@ -78,7 +78,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     console.log(`User Data: ${JSON.stringify(userData)}`);
-    res.redirect(`${config.frontEndUrl}?token=${token}`);
+    res.redirect(`${config.frontEndUrl}?token=${token}&gitId=${userModel.gitId}`);
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error", details: (error as Error).message });

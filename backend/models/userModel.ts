@@ -19,10 +19,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    SolanaAddress: {
+    solanaAddress: {  // Updated to camelCase
         type: String,
-        required:false,
-    }
+        required: false,
+    },
 });
 
 const User = mongoose.model("User", userSchema);

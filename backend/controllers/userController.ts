@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import { config } from "../config/config";
+import { Connection, PublicKey, Transaction } from "@solana/web3.js";
+import nacl from "tweetnacl";
+import User from "../models/userModel";
 
 const GITHUB_API_URL = config.githubAPIURL;
 
@@ -56,4 +59,48 @@ const sendRepo = async (req: Request, res: Response) => {
     res.status(200).json(result);
 }
 
-export {getRepo, sendRepo}
+
+const verifySignature = async (req: Request, res: Response) => {
+  try {
+    const { publicKey, signature, gitId } = req.body;
+    const message = new TextEncoder().encode("Sign into nexzsol");
+
+    // Verify the signature
+    const isValid = nacl.sign.detached.verify(
+      message,
+      new Uint8Array(signature.data),
+      new PublicKey(publicKey).toBytes()
+    );
+
+    if (!isValid) {
+      return res.status(411).json({
+        message: "Incorrect signature",
+      });
+    }
+
+    // Find the user by their GitHub ID
+    const user = await User.findOne({ gitId });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    // Update the user's Solana address
+    user.solanaAddress = publicKey;
+    await user.save();
+
+    return res.status(200).json({
+      message: "Signature is valid and address saved",
+      solanaAddress: user.solanaAddress,
+    });
+  } catch (err) {
+    return res.status(500).json({ error: "Internal Server Error", details: err });
+  }
+};
+
+
+
+
+export {getRepo, sendRepo, verifySignature}

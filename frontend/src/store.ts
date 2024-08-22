@@ -13,6 +13,12 @@ export interface RoleStore {
   removeRole: () => void;
 }
 
+export interface GitIdStore {
+  gitId: string;
+  setGitId: (role: string) => void;
+  removeGitId: () => void;
+}
+
 export const useTokenStore = create<TokenStore>()(
   devtools(
     persist(
@@ -33,6 +39,19 @@ export const useRoleStore = create<RoleStore>()(
         role: "",
         setRole: (role: string) => set({ role }),
         removeRole: () => set({ role: "" }),
+      }),
+      { name: "role-store" }
+    )
+  )
+);
+
+export const useGitIdStore = create<GitIdStore>()(
+  devtools(
+    persist(
+      (set) => ({
+        gitId: "",
+        setGitId: (data: string) => set({ gitId: data }),
+        removeGitId: () => set({ gitId: "" }),
       }),
       { name: "role-store" }
     )

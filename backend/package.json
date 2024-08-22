@@ -26,6 +26,7 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "@solana/web3.js": "^1.95.3",
     "@types/cors": "^2.8.17",
     "axios": "^1.7.3",
     "cors": "^2.8.5",
@@ -33,6 +34,7 @@
     "express": "^4.19.2",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.5.2"
+    "mongoose": "^8.5.2",
+    "tweetnacl": "^1.0.3"
   }
 }

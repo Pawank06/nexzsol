@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { useRoleStore, useTokenStore } from "@/store"; // Ensure the path is correct
+import { useGitIdStore, useRoleStore, useTokenStore } from "@/store"; // Ensure the path is correct
 import Link from "next/link";
 import { Loader, Rocket, User } from "lucide-react";
 
@@ -20,18 +20,28 @@ const Hero = () => {
     setRole: state.setRole,
   }));
 
+  const setGitId = useGitIdStore((state) => state.setGitId);
+  
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const queryParams = new URLSearchParams(window.location.search);
       const retrievedToken = queryParams.get("token");
+      const retrievedGitId = queryParams.get("gitId")
+      console.log(`Retrieved token: ${retrievedGitId}`)
+
       if (retrievedToken) {
         setToken(retrievedToken);
         window.history.replaceState({}, document.title, "/");
         setToken(retrievedToken);
         router.push("/select-role");
       }
+
+      if (retrievedGitId) {
+        setGitId(retrievedGitId); // Set gitId in Zustand
+      }
     }
-  }, [setToken, router]);
+  }, [setToken, router, setGitId]);
 
   const handleGitHubLogin = () => {
     setLoading(true);
