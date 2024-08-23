@@ -7,6 +7,12 @@ export interface TokenStore {
   removeToken: () => void;
 }
 
+export interface VerifyTokenStore {
+  verifytoken: string;
+  setVerifyToken: (data: string) => void;
+  removeVerifyToken: () => void;
+}
+
 export interface RoleStore {
   role: string;
   setRole: (role: string) => void;
@@ -28,6 +34,19 @@ export const useTokenStore = create<TokenStore>()(
         removeToken: () => set({ token: "" }),
       }),
       { name: "token-store" }
+    )
+  )
+);
+
+export const useVerifyTokenStore = create<VerifyTokenStore>()(
+  devtools(
+    persist(
+      (set) => ({
+        verifytoken: "",
+        setVerifyToken: (data: string) => set({ verifytoken: data }),
+        removeVerifyToken: () => set({ verifytoken: "" }),
+      }),
+      { name: "verify-token-store" }
     )
   )
 );

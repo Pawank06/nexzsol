@@ -3,6 +3,7 @@ import { config } from "../config/config";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 import nacl from "tweetnacl";
 import User from "../models/userModel";
+import jwt from 'jsonwebtoken'
 
 const GITHUB_API_URL = config.githubAPIURL;
 
@@ -91,9 +92,19 @@ const verifySignature = async (req: Request, res: Response) => {
     user.solanaAddress = publicKey;
     await user.save();
 
+    const verifyToken = jwt.sign(
+      {
+        gitId: user.gitId,
+        solanaAddress: user.solanaAddress,
+      },
+      config.jwtSecret,
+      {expiresIn: '1h'}
+    )
+
     return res.status(200).json({
       message: "Signature is valid and address saved",
       solanaAddress: user.solanaAddress,
+      verifyToken,
     });
   } catch (err) {
     return res.status(500).json({ error: "Internal Server Error", details: err });
