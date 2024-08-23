@@ -100,7 +100,36 @@ const verifySignature = async (req: Request, res: Response) => {
   }
 };
 
+const updateRole = async (req: Request, res: Response) => {
+  try {
+      const { gitId, role } = req.body;
+
+      // Validate role
+      if (!["maintainer", "contributor"].includes(role)) {
+          return res.status(400).json({ error: "Invalid role" });
+      }
+
+      // Find the user by their GitHub ID
+      const user = await User.findOne({ gitId });
+
+      if (!user) {
+          return res.status(404).json({
+              message: "User not found",
+          });
+      }
+
+      // Update the user's role
+      user.role = role;
+      await user.save();
+
+      return res.status(200).json({
+          message: "Role updated successfully",
+          role: user.role,
+      });
+  } catch (err) {
+      return res.status(500).json({ error: "Internal Server Error", details: err });
+  }
+};
 
 
-
-export {getRepo, sendRepo, verifySignature}
+export {getRepo, sendRepo, verifySignature, updateRole}

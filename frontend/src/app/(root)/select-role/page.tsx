@@ -2,13 +2,15 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useTokenStore, useRoleStore } from "@/store";
+import { useTokenStore, useRoleStore, useGitIdStore } from "@/store";
+import { stat } from "fs";
 
 type Role = 'contributor' | 'maintainer';
 
 const SelectRole = () => {
   const router = useRouter();
   const token = useTokenStore((state) => state.token);
+  const gitId = useGitIdStore((state) => state.gitId )
   const { role, setRole } = useRoleStore((state) => ({
     role: state.role,
     setRole: state.setRole,
@@ -22,9 +24,33 @@ const SelectRole = () => {
     }
   }, [token, role, router]);
 
-  const handleRoleSelection = (selectedRole: Role) => {
-    setRole(selectedRole);  // Store the role in Zustand state
-    router.push(`/${selectedRole}`); // Redirect to role-specific dashboard
+  const handleRoleSelection = async (selectedRole: Role) => {
+    setRole(selectedRole); // Store the role in Zustand state
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/update-role`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Assuming you are sending the token for authentication
+        },
+        body: JSON.stringify({
+          gitId,
+          role: selectedRole,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Role updated successfully:", data);
+        router.push(`/${selectedRole}`); // Redirect to role-specific dashboard
+      } else {
+        const errorData = await response.json();
+        console.error("Error updating role:", errorData.message);
+      }
+    } catch (error) {
+      console.error("Error making the request:", error);
+    }
   };
 
   return (

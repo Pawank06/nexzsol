@@ -53,7 +53,7 @@ export const useGitIdStore = create<GitIdStore>()(
         setGitId: (data: string) => set({ gitId: data }),
         removeGitId: () => set({ gitId: "" }),
       }),
-      { name: "role-store" }
+      { name: "gitId-store" }
     )
   )
 );
