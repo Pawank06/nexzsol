@@ -42,8 +42,8 @@ const navLinks = [
     icon: <FaGithub className="h-4 w-4" />,
   },
   {
-    label: "Spent Sol",
-    href: "/maintainer/spent-sol",
+    label: "Create Bounty",
+    href: "/maintainer/create-bounty",
     icon: <IoDiamond className="h-4 w-4" />,
   },
   {

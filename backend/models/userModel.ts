@@ -27,6 +27,7 @@ const userSchema = new Schema({
         type: String,
         enum: ["maintainer", "contributor"],
     },
+    balance: { type: Number, default: 0 }
 });
 
 const User = mongoose.model("User", userSchema);

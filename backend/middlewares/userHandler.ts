@@ -12,7 +12,7 @@ const userHandler = async (req: Request, res: Response, next: NextFunction) => {
   }
 
   const token = authHeader.split(" ")[1];
-  console.log("Token received:", token);
+  // console.log("Token received:", token);
 
   jwt.verify(token, jwtSecret, async (err, decoded) => {
     if (err) {
@@ -25,6 +25,7 @@ const userHandler = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     const { id } = decoded as { id: string };
+    // console.log("User ID:", id);
 
     try {
       const userModel = await User.findById(id);
