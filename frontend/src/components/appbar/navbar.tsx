@@ -9,6 +9,7 @@ import { ModeToggle } from '../ModeToggle'
 import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useGitIdStore, useTokenStore, useVerifyTokenStore } from '@/store'
+import { WalletMinimal } from 'lucide-react'
 
 const Navbar = () => {
     const { publicKey, signMessage } = useWallet()
@@ -103,13 +104,22 @@ const Navbar = () => {
                         </nav>
                     </div>
                     <div className="flex gap-4 items-center">
-                        {
+                    {
                             publicKey ? (
 
-                                <WalletDisconnectButton />
+                                <WalletDisconnectButton style={{backgroundColor: "white", color: "black", fontWeight: "bold"}}>
+                                    
+                                </WalletDisconnectButton>
                             ) : (
-
-                                <WalletMultiButton />
+                                <div className='bg-white rounded-md flex items-center justify-center shadow-inner shadow-black/70'>
+                                    
+                                <WalletMultiButton style={{backgroundColor: "transparent", color: "black", display: "flex", gap: "8px", paddingLeft: "8px",}}>
+                                    <div className='bg-black px-3 py-2 rounded-md text-white shadow-inner shadow-white/70'>
+                                    <WalletMinimal className='w-4'/>
+                                    </div>
+                                    <span className='font-medium'>Select Wallet</span>
+                                </WalletMultiButton>
+                                </div>
                             )
                         }
                     </div>

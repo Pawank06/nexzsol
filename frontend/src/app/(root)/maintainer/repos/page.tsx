@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useTokenStore } from "@/store";
 import { Loader } from "lucide-react";
@@ -12,6 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { CoolMode } from "@/components/magicui/cool-mode";
+import axios from "axios";
 
 const Repo = () => {
   const [repo, setRepo] = useState<any[]>([]);
@@ -23,6 +25,7 @@ const Repo = () => {
   const token = useTokenStore((state) => state.token);
   const [selectedRepo, setSelectedRepo] = useState(false);
   const [hookAdded, setHooksAdded] = useState(false);
+  const [balance, setBalance] = useState(0)
 
   const fetchRepos = async () => {
     try {
@@ -94,11 +97,13 @@ const Repo = () => {
     }
   };
 
+  
+
   const startIndex = currentPage * reposPerPage;
   const paginatedRepos = repo.slice(startIndex, startIndex + reposPerPage);
 
   return (
-    <div>
+    <div >
       <div className="">
         {loading ? (
           <Loader className="animate-spin" />
@@ -121,7 +126,7 @@ const Repo = () => {
         ) : null}
       </div>
       {hookAdded ? (
-        <>Repo added successfully for bounty</>
+        <>Repo added successfully for bounty {balance}</>
       ) : (
         <>
           {error && <div className="mt-5 text-red-500">{error}</div>}
@@ -145,10 +150,11 @@ const Repo = () => {
                           Forks: {item.forks}
                         </p>
                       </div>
-
+                      <CoolMode>
                       <Button onClick={() => handleClick(item.hooks_url, item.name)}>
                         Add to bounty
                       </Button>
+                      </CoolMode>
                     </CardContent>
                   </Card>
                 ))}
