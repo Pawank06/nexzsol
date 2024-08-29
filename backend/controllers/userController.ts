@@ -210,7 +210,36 @@ const getUserRepos = async (req: Request, res: Response) => {
   }
 };
 
+const getUserBalance = async (req: Request, res: Response) => {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.split(" ")[1];
 
+    if (!token) {
+      return res.status(401).json({ error: "Authorization token is required" });
+    }
+
+    jwt.verify(token, config.jwtSecret, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ error: "Invalid or expired token" });
+      }
+
+      const { id: userId } = decoded as { id: string };
+
+      const currentUser = await User.findOne({ _id: userId });
+      if (!currentUser) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const balance = currentUser.balance;
+      return res.status(200).json({ balance });
+    });
+
+  } catch (error) {
+    console.error("Error while getting balance:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 const verifyPayment = async (req: Request, res: Response) => {
   try {
@@ -269,4 +298,4 @@ const verifyPayment = async (req: Request, res: Response) => {
 
 
 
-export {getRepo, sendRepo, verifySignature, updateRole, getUserRepos, verifyPayment}
+export {getRepo, sendRepo, verifySignature, updateRole, getUserRepos, verifyPayment, getUserBalance}

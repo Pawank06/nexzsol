@@ -25,6 +25,11 @@ export interface GitIdStore {
   removeGitId: () => void;
 }
 
+export interface BalanceStore {
+  balance: number;
+  setBalance: (balance: number) => void;
+}
+
 export const useTokenStore = create<TokenStore>()(
   devtools(
     persist(
@@ -76,3 +81,15 @@ export const useGitIdStore = create<GitIdStore>()(
     )
   )
 );
+
+export const useBalanceStore = create<BalanceStore>()(
+  devtools(
+    persist(
+      (set) => ({
+        balance: 0,
+        setBalance: (data: number) => set({ balance: data }),
+      }),
+      { name: "gitId-store" }
+    )
+  )
+)
