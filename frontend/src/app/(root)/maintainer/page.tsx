@@ -72,6 +72,7 @@ const Dashboard = () => {
   }, [role, router]);
 
   return (
+    <div >  
     <div className="flex flex-col items-center gap-1 text-center">
       <h3 className="text-2xl font-bold tracking-tight">
         {publicKey ? `Wallet Connected` : "Connect Your Wallet"}
@@ -85,8 +86,15 @@ const Dashboard = () => {
         </Link>
       ) : (
 
-        <WalletMultiButton className="mt-4" />
+        <div className='bg-white mt-2 rounded-md flex items-center justify-center shadow-inner shadow-black/70'>
+          <WalletMultiButton style={{backgroundColor: "transparent", color: "black", display: "flex", gap: "8px",}}>
+            <span className='font-medium'>
+            Select Wallet
+            </span>
+          </WalletMultiButton>
+        </div>
       )}
+    </div>
     </div>
   );
 };

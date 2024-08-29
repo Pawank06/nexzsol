@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Connection, PublicKey, Transaction, SystemProgram, clusterApiUrl } from '@solana/web3.js';
-import { useTokenStore } from '@/store';
+import { useBalanceStore, useTokenStore } from '@/store';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Button } from '@/components/ui/button';
 
@@ -13,6 +13,8 @@ const CreateBounty = () => {
   const [repos, setRepos] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const token = useTokenStore((state) => state.token);
+  const setBalance = useBalanceStore((state) => state.setBalance)
+  const balance = useBalanceStore((state) => state.balance)
   const wallet = useWallet();
 
   // Fetch added repositories
@@ -36,6 +38,36 @@ const CreateBounty = () => {
     }
   }, [token]);
 
+  const fetchBalance = async () => {
+    try {
+      if (!token) {
+        throw new Error("No token found in store");
+      }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/get-balance`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setBalance(data.balance);
+    } catch (error) {
+      setError("Error fetching balance: " + (error as Error).message);
+    }
+  };
+
+  useEffect(() => {
+    fetchBalance()
+  }, [balance])
+  
   const sendSOL = async () => {
     if (!wallet.connected || !wallet.publicKey) {
       setError('Wallet not connected');
@@ -86,19 +118,25 @@ const CreateBounty = () => {
   }
 
   return (
-    <div>
-      <h2>Added Repositories</h2>
-      {repos.length > 0 ? (
-        <ul>
+    <div className='flex flex-col items-center justify-center'>
+      <h2 className='m-5 text-3xl font-bold'>Add Solana Bounty</h2>
+      {/* {repos.length > 0 ? (
+        <div className='grid'>
           {repos.map((repo) => (
-            <li key={repo._id}>{repo.repoName}</li>
+            <div key={repo._id}>
+              <div  className='border px-6 py-4'>
+              {repo.repoName}
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       ) : (
         <p>No repositories added yet.</p>
-      )}
+      )} */}
+      
+      <h1 className='text-lg font-bold py-2'>Balance: {balance}</h1>
       <Button onClick={sendSOL} disabled={!wallet.connected}>
-        Send 1 SOL to Parent Account
+        Send 1 SOL for Bounty
       </Button>
       {/* If needed, add wallet connection UI here */}
     </div>
