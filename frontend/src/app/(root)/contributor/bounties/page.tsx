@@ -12,22 +12,16 @@ interface UserRepo {
 const Bounties = () => {
   const [repos, setRepos] = useState<UserRepo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchUserRepos = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/all-repo`);
 
-        if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
-        }
-
         const data = await response.json();
         setRepos(data);
         console.log(data)
       } catch (err: any) {
-        setError(err.message);
         console.log(err.message);
       } finally {
         setLoading(false);
@@ -38,7 +32,7 @@ const Bounties = () => {
   }, []);
 
   if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
-  if (error) return <div className="flex justify-center items-center h-screen text-red-500">Error: {error}</div>;
+
 
   return (
     <div className="container mx-auto p-4">
