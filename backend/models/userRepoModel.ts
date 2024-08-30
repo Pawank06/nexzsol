@@ -14,6 +14,10 @@ const userRepoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  repoUrl: {
+    type: String,
+    required: true,
+  },
   addedAt: {
     type: Date,
     default: Date.now,

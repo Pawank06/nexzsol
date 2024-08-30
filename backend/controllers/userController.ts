@@ -40,11 +40,12 @@ const getRepo = async (req: Request, res: Response) => {
     } catch (err) {
       res.status(500).json({ error: "Internal Server Error", details: err });
     }
-  };
+};
 
 const sendRepo = async (req: Request, res: Response) => {
     const access_token = req.headers.accessToken;
-    const { hookUrl, repoName } = req.body;
+    const { hookUrl, repoName, repoUrl } = req.body;
+    console.log("Body Data", req.body)
     const headers = {
       Authorization: `token ${access_token}`,
     };
@@ -92,11 +93,14 @@ const sendRepo = async (req: Request, res: Response) => {
     console.log(result)
     res.status(200).json(result);
 
+    console.log(repoUrl)
+
 
     const newUserRepo = new UserRepo({
       userId,
       repoName,
       hookUrl,
+      repoUrl
     });
 
     await newUserRepo.save();
@@ -296,6 +300,23 @@ const verifyPayment = async (req: Request, res: Response) => {
   }
 };
 
+const getAllUserRepos = async (req: Request, res: Response) => {
+  try {
+    // Fetch all user repositories
+    const userRepos = await UserRepo.find();
+
+    // Check if any repositories exist
+    if (!userRepos.length) {
+      return res.status(404).json({ message: "No repositories found" });
+    }
+
+    // Return the repositories
+    res.status(200).json(userRepos);
+  } catch (error) {
+    // Handle any errors
+    res.status(500).json({ error: "Internal Server Error", details: error });
+  }
+};
 
 
-export {getRepo, sendRepo, verifySignature, updateRole, getUserRepos, verifyPayment, getUserBalance}
+export {getRepo, sendRepo, verifySignature, updateRole, getUserRepos, verifyPayment, getUserBalance, getAllUserRepos}
