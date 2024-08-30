@@ -23,12 +23,9 @@ const Bounties = () => {
       console.log(data)
     } catch (err: any) {
       console.log(err.message);
-    } finally {
-      setLoading(false);
     }
   };
 
-  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
 
 
   return (
