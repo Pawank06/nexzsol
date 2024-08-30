@@ -72,10 +72,14 @@ const StepContent: React.FC<StepContentProps> = ({ currentStep, publicKey }) => 
     publicKey ? (
       <p key="connected" className="text-sm text-gray-500">Wallet Connected!</p>
     ) : (
+      <div className='flex flex-col'>
+      <h1 className=' font-bold text-green-500'>Make sure you are using devnet</h1>
       <div key="connect" className='bg-white mt-2 rounded-md flex items-center justify-center shadow-inner shadow-black/70'>
+        
         <WalletMultiButton style={{ backgroundColor: "transparent", color: "black", display: "flex", gap: "8px" }}>
           <span className='font-medium'>Select Wallet</span>
         </WalletMultiButton>
+      </div>
       </div>
     ),
     <p key="verifying" className="text-sm text-gray-500">Waiting for signature verification...</p>,

@@ -180,7 +180,11 @@ const CreateBounty = () => {
       </div>
       <div className="mt-5 border rounded-full bg-zinc-900">
           <p className="px-3 py-2 text-center">/sol-amount @username</p>
+          
       </div>
+      <div className="mt-5  border border-md bg-zinc-800 px-3 py-4 rounded-md">
+            <p className="text-center text-green-600 font-bold">Note: this will only work for those contributor <br /> who signed in to our website</p>
+          </div>
     </div>
   );
 };
