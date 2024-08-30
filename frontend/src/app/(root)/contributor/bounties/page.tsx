@@ -12,7 +12,7 @@ interface UserRepo {
 const Bounties = () => {
   const [repos, setRepos] = useState<UserRepo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>("");
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchUserRepos = async () => {
@@ -25,8 +25,10 @@ const Bounties = () => {
 
         const data = await response.json();
         setRepos(data);
+        console.log(data)
       } catch (err: any) {
         setError(err.message);
+        console.log(err.message);
       } finally {
         setLoading(false);
       }
