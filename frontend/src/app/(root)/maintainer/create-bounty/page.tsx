@@ -133,12 +133,12 @@ const CreateBounty = () => {
       <div className="w-full max-w-lg p-6 rounded-lg shadow-md border">
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">Add Solana Bounty</h2>
 
-        {error && (
+        {/* {error && (
           <div className="mb-4 p-3 text-red-500 rounded-md flex items-center">
             <AlertCircle className="mr-2 h-5 w-5" />
             {error}
           </div>
-        )}
+        )} */}
 
         <h1 className="text-lg font-bold text-gray-300 text-center mb-6">
           Balance: {balance} SOL
