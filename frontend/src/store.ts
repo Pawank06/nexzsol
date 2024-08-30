@@ -89,7 +89,7 @@ export const useBalanceStore = create<BalanceStore>()(
         balance: 0,
         setBalance: (data: number) => set({ balance: data }),
       }),
-      { name: "gitId-store" }
+      { name: "balance-store" }
     )
   )
 )
