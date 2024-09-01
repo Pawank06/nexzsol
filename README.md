@@ -37,12 +37,13 @@ Nexzsol is a revolutionary platform that bridges the gap between open-source con
 - **Global Participation**: Anyone with a GitHub account and Solana wallet can participate.
 - **Incentivized Contributions**: Encourage more active participation in open-source projects.
 
-## 🚦 Getting Started
+## 🚦 Demo
 
-1. Clone this repository
-2. Install dependencies with `npm install`
-3. Set up your environment variables (see `.env.example`)
-4. Run the development server with `npm run dev`
+
+
+https://github.com/user-attachments/assets/478fb2a3-42f6-4e7e-b1d2-02c488b0241e
+
+
 
 ## 🤝 Contributing
 
