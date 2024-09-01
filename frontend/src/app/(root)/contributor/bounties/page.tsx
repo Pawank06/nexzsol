@@ -1,3 +1,4 @@
+"use client"
 import React, { use } from "react";
 import { useState , useEffect} from "react";
 import { Button } from "@/components/ui/button";
