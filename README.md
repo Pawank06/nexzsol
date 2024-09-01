@@ -2,6 +2,13 @@
 
 Nexzsol is a revolutionary platform that bridges the gap between open-source contributions and cryptocurrency rewards. By leveraging Solana blockchain and GitHub OAuth, we provide a seamless experience for both contributors and maintainers to participate in and manage bounty programs.
 
+
+## 🚦 Demo
+
+
+
+https://github.com/user-attachments/assets/478fb2a3-42f6-4e7e-b1d2-02c488b0241e
+
 ## 🚀 Features
 
 ### For Contributors
@@ -36,12 +43,6 @@ Nexzsol is a revolutionary platform that bridges the gap between open-source con
 - **Transparency**: All transactions and bounties are recorded on the blockchain.
 - **Global Participation**: Anyone with a GitHub account and Solana wallet can participate.
 - **Incentivized Contributions**: Encourage more active participation in open-source projects.
-
-## 🚦 Demo
-
-
-
-https://github.com/user-attachments/assets/478fb2a3-42f6-4e7e-b1d2-02c488b0241e
 
 
 
