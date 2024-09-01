@@ -17,7 +17,7 @@ import { CoolMode } from "@/components/magicui/cool-mode";
 const Bounties = () => {
   const [bounties, setBounties] = useState([]);
   useEffect(() => {
-    fetch("https://api.github.com/repos/facebook/react")
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/all-repo`)
       .then((response) => response.json())
       .then((data) => setBounties(data));
   }, []);
